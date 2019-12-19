@@ -27,6 +27,9 @@ html {
 
 body {
   margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", Helvetica,
+    Tahoma, Arial, "Microsoft YaHei", "微软雅黑", "黑体", Heiti, sans-serif,
+    SimSun, "宋体", serif;
 }
 
 /**
@@ -265,6 +268,12 @@ progress {
  * Remove the default vertical scrollbar in IE 10+.
  */
 
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
 textarea {
   overflow: auto;
 }
@@ -365,7 +374,7 @@ template {
 /*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #595959; /*滚动条的背景颜色*/
+  background-color: rgba(255, 255, 255, 0.171); /*滚动条的背景颜色*/
   opacity: 0.2;
 }
 </style>
