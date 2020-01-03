@@ -1,6 +1,6 @@
 <template>
   <div class="excel">
-    <TopBar />
+    <!--<TopBar />-->
     <ToolBar />
     <Table />
   </div>
@@ -26,6 +26,6 @@ export default {
 .excel {
   width: 100vw;
   height: 100vh;
-  background: #f7f7f7;
+  background: #fcfcfc;
 }
 </style>

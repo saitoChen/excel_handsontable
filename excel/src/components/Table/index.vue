@@ -30,7 +30,9 @@ export default {
   methods: {
     initContextCfg() {
       return {
-        setAlign: this.setAlign
+        setAlign: this.setAlign,
+        setBgColor: this.setBgColor,
+        setColor: this.setColor
       };
     },
     initTable() {
@@ -66,7 +68,7 @@ export default {
       for (let i = 0; i < 100; i++) {
         data[i] = [];
         renderData[i] = [];
-        for (let j = 0; j < 26; j++) {
+        for (let j = 0; j < 52; j++) {
           renderData[i][j] = "";
           data[i][j] = {
             value: "",
@@ -98,6 +100,24 @@ export default {
       for (let i = startRow; i <= endRow; i++) {
         for (let j = startCol; j <= endCol; j++) {
           this.originData[i][j].style[direction] = align;
+        }
+      }
+      this.hot.render();
+    },
+    setBgColor(color) {
+      let { startRow, startCol, endRow, endCol } = this.currentSelection;
+      for (let i = startRow; i <= endRow; i++) {
+        for (let j = startCol; j <= endCol; j++) {
+          this.originData[i][j].style.backgroundColor = color;
+        }
+      }
+      this.hot.render();
+    },
+    setColor(color) {
+      let { startRow, startCol, endRow, endCol } = this.currentSelection;
+      for (let i = startRow; i <= endRow; i++) {
+        for (let j = startCol; j <= endCol; j++) {
+          this.originData[i][j].style.color = color;
         }
       }
       this.hot.render();

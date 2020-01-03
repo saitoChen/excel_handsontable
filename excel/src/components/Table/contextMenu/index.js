@@ -22,7 +22,7 @@ export function renderContextMenu(cfg) {
       },
       remove_col: {
         name: "删除列"
-      },
+      } /* ,
       undo: {
         name: "后退"
       },
@@ -34,9 +34,56 @@ export function renderContextMenu(cfg) {
         submenu: alignSubMenu(cfg.setAlign)
       },
       background: {
-        name: "背景颜色"
-      }
+        name: "背景颜色",
+        submenu: setBgColor(cfg.setBgColor)
+      },
+      color: {
+        name: "颜色",
+        submenu: setColor(cfg.setColor)
+      } */
     }
+  };
+}
+
+function setColor(fn) {
+  return {
+    items: [
+      {
+        key: "color:black",
+        name: "白色",
+        callback: () => {
+          fn("#fff");
+        }
+      },
+      {
+        key: "color:red",
+        name: "红色",
+        callback: () => {
+          fn("red");
+        }
+      }
+    ]
+  };
+}
+
+function setBgColor(fn) {
+  return {
+    items: [
+      {
+        key: "background:black",
+        name: "黑色",
+        callback: () => {
+          fn("#000");
+        }
+      },
+      {
+        key: "background:red",
+        name: "红色",
+        callback: () => {
+          fn("red");
+        }
+      }
+    ]
   };
 }
 

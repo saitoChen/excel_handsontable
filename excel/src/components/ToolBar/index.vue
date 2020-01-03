@@ -2,20 +2,35 @@
   <div class="toolbar">
     <ul class="toolbar__list">
       <li class="toolbar__item" v-for="(item, index) of menu" :key="index">
-        <el-tooltip effect="dark" :content="item.name" placement="bottom">
-          <i
-            class="toolbar__item__icon iconfont"
-            :class="item.icon"
-            @click="selectMenu(item)"
-          />
-        </el-tooltip>
+        <div slot="reference" class="toolbar__item__wrap">
+          <el-tooltip effect="dark" :content="item.name" placement="bottom">
+            <div class="toolbar__item__icon_wrap">
+              <i @click="selectMenu(item)" class="toolbar__item__icon iconfont" :class="item.icon" />
+              <el-popover placement="bottom" width="120" trigger="click">
+                <div class="color__pool__wrap">
+                  <ColorPool @colorPick="colorPick($event, item)" />
+                </div>
+                <i
+                  v-if="item.subIcon"
+                  slot="reference"
+                  class="iconfont toolbar__item__subicon"
+                  :class="item.subIcon"
+                />
+              </el-popover>
+            </div>
+          </el-tooltip>
+        </div>
       </li>
     </ul>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
+import ColorPool from "../ColorPool/index";
 export default {
+  components: {
+    ColorPool
+  },
   data() {
     return {
       menu: [
@@ -30,6 +45,23 @@ export default {
           key: "redo"
         },
         {
+          name: "字体颜色",
+          icon: "iconfont-color",
+          key: "color",
+          subIcon: "iconarrowdown"
+        },
+        {
+          name: "背景颜色",
+          icon: "iconmd-color-fill",
+          key: "bgColor",
+          subIcon: "iconarrowdown"
+        },
+        {
+          name: "居左",
+          icon: "iconalign-left",
+          key: "align-left"
+        },
+        {
           name: "居左",
           icon: "iconalign-left",
           key: "align-left"
@@ -38,11 +70,6 @@ export default {
           name: "水平居中",
           icon: "iconalign-center",
           key: "align-center"
-        },
-        {
-          name: "居右",
-          icon: "iconalign-right",
-          key: "align-right"
         },
         {
           name: "居上",
@@ -65,13 +92,50 @@ export default {
           key: "mergeCells"
         }
       ],
-      hot: {}
+      hot: {},
+      curColor: ""
     };
   },
   computed: {
     ...mapState(["tableInstance", "currentRange", "originData"])
   },
   methods: {
+    setBgColor(color) {
+      let startRow = this.currentRange.from.row;
+      let startCol = this.currentRange.from.col;
+      let endRow = this.currentRange.to.row;
+      let endCol = this.currentRange.to.col;
+      for (let i = startRow; i <= endRow; i++) {
+        for (let j = startCol; j <= endCol; j++) {
+          this.originData[i][j].style.backgroundColor = color;
+        }
+      }
+      this.tableInstance.render();
+    },
+    setColor(color) {
+      let startRow = this.currentRange.from.row;
+      let startCol = this.currentRange.from.col;
+      let endRow = this.currentRange.to.row;
+      let endCol = this.currentRange.to.col;
+      for (let i = startRow; i <= endRow; i++) {
+        for (let j = startCol; j <= endCol; j++) {
+          this.originData[i][j].style.color = color;
+        }
+      }
+      this.tableInstance.render();
+    },
+    // 获取选择的颜色
+    colorPick(color, item) {
+      let { from, to } = this.currentRange;
+      this.curColor = color;
+      if (item.key === "bgColor") {
+        this.setBgColor(color);
+      } else {
+        this.setColor(color);
+      }
+      this.resetSelectCell(from, to);
+    },
+    // 重新选中excel选区
     resetSelectCell(from, to) {
       this.tableInstance.selectCell(from.row, from.col, to.row, to.col, false);
     },
@@ -103,6 +167,7 @@ export default {
       this.resetSelectCell(from, to);
     },
     selectMenu(item) {
+      let { from, to } = this.currentRange;
       switch (item.key) {
         case "mergeCells":
           this.mergeCells();
@@ -123,7 +188,14 @@ export default {
           } else {
             this.setAlign("vertical-align", align);
           }
-          const { from, to } = this.currentRange;
+          this.resetSelectCell(from, to);
+          break;
+        case "bgColor":
+          this.setBgColor(this.curColor);
+          this.resetSelectCell(from, to);
+          break;
+        case "color":
+          this.setColor(this.curColor);
           this.resetSelectCell(from, to);
           break;
       }
@@ -136,17 +208,54 @@ export default {
   position: relative;
   padding: 0 26px;
   z-index: 1;
+  height: 28px;
+  display: flex;
+  align-items: center;
 
   .toolbar__list {
     display: flex;
 
     .toolbar__item {
-      .toolbar__item__icon {
-        padding: 0 8px;
-        font-size: 14px;
-        cursor: pointer;
+      display: flex;
+      align-items: center;
+      height: 24px;
+
+      .toolbar__item__wrap {
+        .toolbar__item__icon_wrap {
+          .toolbar__popper {
+            z-index: 99999;
+          }
+
+          .toolbar__item__icon {
+            padding: 0 8px;
+            font-size: 14px;
+            cursor: pointer;
+          }
+
+          .iconfont-color {
+            padding-right: 0;
+          }
+
+          .iconmd-color-fill {
+            padding-right: 0;
+          }
+
+          .toolbar__item__subicon {
+            font-size: 14px;
+            cursor: pointer;
+          }
+        }
+      }
+
+      &:hover {
+        background: #f0f0f0;
       }
     }
   }
+}
+
+.color__pool__wrap {
+  width: 100%;
+  height: 60px;
 }
 </style>

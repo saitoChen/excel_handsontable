@@ -74,6 +74,27 @@
       "font_class": "arrow-back",
       "unicode": "e60b",
       "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "12465994",
+      "name": "color-fill",
+      "font_class": "md-color-fill",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "12465995",
+      "name": "font-color",
+      "font_class": "font-color",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "12575835",
+      "name": "arrow-down",
+      "font_class": "arrowdown",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
     }
   ]
 }
