@@ -1,2 +1,21 @@
 # excel_handsontable
-excel by vue&amp;handsontable
+
+list：
+
+- [x] 表格展示
+- [x] toolbar 
+- [x] contextMenu
+- [x] 前进&后退
+- [x] 新增行新增列
+- [x] 删除行删除列
+- [x] 合并单元格
+- [x] 对齐方式
+- [x] 字体颜色
+- [x] 背景颜色
+- [ ] 字号，斜体，加粗，下划线
+- [ ] 单元格格式
+- [ ] 导出
+- [ ] 过滤
+- [ ] 排序
+- [ ] 公式
+- [ ] 插入图片
